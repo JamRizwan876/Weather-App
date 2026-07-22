@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TechNova IT Solutions</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+    *{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+scroll-behavior:smooth;
+}
+
+body{
+background:#0f172a;
+color:white;
+}
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 8%;
+background:#111827;
+position:sticky;
+top:0;
+z-index:1000;
+}
+
+.logo{
+font-size:28px;
+font-weight:bold;
+color:#00d4ff;
+}
+
+nav ul{
+display:flex;
+list-style:none;
+gap:30px;
+}
+
+nav ul li a{
+text-decoration:none;
+color:white;
+}
+
+.menu-btn{
+display:none;
+font-size:25px;
+cursor:pointer;
+}
+
+.hero{
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+padding:20px;
+background:linear-gradient(rgba(0,0,0,.7),
+rgba(0,0,0,.7)),
+url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1600');
+background-size:cover;
+}
+
+.hero h1{
+font-size:60px;
+margin-bottom:20px;
+}
+
+.hero p{
+max-width:700px;
+margin:auto;
+line-height:1.8;
+}
+
+.btn{
+display:inline-block;
+margin-top:30px;
+padding:15px 35px;
+background:#00d4ff;
+color:black;
+text-decoration:none;
+font-weight:bold;
+border-radius:5px;
+}
+
+section{
+padding:80px 8%;
+}
+
+h2{
+text-align:center;
+margin-bottom:50px;
+font-size:40px;
+}
+
+.service-container,
+.pricing-container{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+}
+
+.service-card,
+.price-card{
+background:#1e293b;
+padding:30px;
+border-radius:10px;
+text-align:center;
+}
+
+.service-card i{
+font-size:45px;
+margin-bottom:20px;
+color:#00d4ff;
+}
+
+.price-card h1{
+margin:20px 0;
+color:#00d4ff;
+}
+
+.price-card ul{
+list-style:none;
+margin:20px 0;
+}
+
+.price-card li{
+margin:10px 0;
+}
+
+.price-card button{
+padding:12px 25px;
+border:none;
+background:#00d4ff;
+cursor:pointer;
+font-weight:bold;
+}
+
+.featured{
+transform:scale(1.05);
+border:2px solid #00d4ff;
+}
+
+.about p{
+max-width:900px;
+margin:auto;
+text-align:center;
+line-height:1.8;
+}
+
+.contact form{
+max-width:700px;
+margin:auto;
+display:flex;
+flex-direction:column;
+gap:15px;
+}
+
+.contact input,
+.contact textarea{
+padding:15px;
+border:none;
+border-radius:5px;
+}
+
+.contact button{
+padding:15px;
+background:#00d4ff;
+border:none;
+font-weight:bold;
+cursor:pointer;
+}
+
+footer{
+text-align:center;
+padding:25px;
+background:#111827;
+}
+
+@media(max-width:768px){
+
+nav{
+display:none;
+position:absolute;
+top:70px;
+right:20px;
+background:#111827;
+width:220px;
+}
+
+nav ul{
+flex-direction:column;
+padding:20px;
+}
+
+nav.active{
+display:block;
+}
+
+.menu-btn{
+display:block;
+}
+
+.hero h1{
+font-size:38px;
+}
+}
+</style>
+</head>
+<body>
+
+<header>
+    <div class="logo">TechNova</div>
+
+    <nav id="nav">
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="menu-btn" onclick="toggleMenu()">
+        <i class="fas fa-bars"></i>
+    </div>
+</header>
+
+<section class="hero" id="home">
+    <div class="hero-content">
+        <h1>Build Your Business With Powerful IT Solutions</h1>
+        <p>
+            We create modern websites, mobile apps, digital marketing
+            strategies and software solutions for businesses worldwide.
+        </p>
+        <a href="#contact" class="btn">Get Free Consultation</a>
+    </div>
+</section>
+
+<section class="services" id="services">
+
+<h2>Our Services</h2>
+
+<div class="service-container">
+
+<div class="service-card">
+<i class="fas fa-code"></i>
+<h3>Web Development</h3>
+<p>Modern responsive websites using HTML, CSS, JavaScript, React and PHP.</p>
+</div>
+
+<div class="service-card">
+<i class="fas fa-mobile-alt"></i>
+<h3>App Development</h3>
+<p>Android and iOS applications with modern UI and high performance.</p>
+</div>
+
+<div class="service-card">
+<i class="fas fa-search"></i>
+<h3>SEO Optimization</h3>
+<p>Rank your website higher on Google and increase organic traffic.</p>
+</div>
+
+<div class="service-card">
+<i class="fas fa-chart-line"></i>
+<h3>Digital Marketing</h3>
+<p>Social media campaigns, branding and online business growth.</p>
+</div>
+
+</div>
+</section>
+
+<section class="pricing" id="pricing">
+
+<h2>Pricing Plans</h2>
+
+<div class="pricing-container">
+
+<div class="price-card">
+<h3>Starter</h3>
+<h1>$99</h1>
+<ul>
+<li>5 Pages Website</li>
+<li>Responsive Design</li>
+<li>Contact Form</li>
+<li>1 Month Support</li>
+</ul>
+<button>Select Plan</button>
+</div>
+
+<div class="price-card featured">
+<h3>Business</h3>
+<h1>$299</h1>
+<ul>
+<li>10 Pages Website</li>
+<li>SEO Friendly</li>
+<li>Admin Panel</li>
+<li>3 Months Support</li>
+</ul>
+<button>Select Plan</button>
+</div>
+
+<div class="price-card">
+<h3>Enterprise</h3>
+<h1>$699</h1>
+<ul>
+<li>Custom Website</li>
+<li>E-Commerce Store</li>
+<li>Advanced Features</li>
+<li>12 Months Support</li>
+</ul>
+<button>Select Plan</button>
+</div>
+
+</div>
+</section>
+
+<section class="about" id="about">
+<h2>About Us</h2>
+
+<p>
+TechNova IT Solutions is a software company specializing in
+web development, app development, SEO, UI/UX design and
+digital marketing services. Our mission is to help businesses
+grow through technology and innovation.
+</p>
+
+</section>
+
+<section class="contact" id="contact">
+
+<h2>Contact Us</h2>
+
+<form>
+
+<input type="text" placeholder="Your Name" required>
+
+<input type="email" placeholder="Your Email" required>
+
+<input type="text" placeholder="Subject">
+
+<textarea rows="6"
+placeholder="Your Message"></textarea>
+
+<button type="submit">Send Message</button>
+
+</form>
+
+</section>
+
+<footer>
+<p>© 2026 TechNova IT Solutions | All Rights Reserved</p>
+</footer>
+
+<script>
+    function toggleMenu(){
+    document
+    .getElementById("nav")
+    .classList.toggle("active");
+}
+</script>
+</body>
+</html>

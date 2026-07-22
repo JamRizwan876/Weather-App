@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Management System</title>
+
+<style>
+body{
+    font-family: Arial;
+    background:#f2f2f2;
+    display:flex;
+    justify-content:center;
+    padding:20px;
+}
+
+.container{
+    width:800px;
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+h2{
+    text-align:center;
+}
+
+.form{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+}
+
+input{
+    padding:10px;
+    flex:1;
+    min-width:150px;
+}
+
+button{
+    padding:10px 15px;
+    cursor:pointer;
+    border:none;
+    background:#007bff;
+    color:white;
+    border-radius:5px;
+}
+
+button:hover{
+    background:#0056b3;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th, td{
+    padding:10px;
+    text-align:center;
+    border:1px solid #ddd;
+}
+
+.actions button{
+    margin:2px;
+    background:red;
+}
+
+.actions .edit{
+    background:green;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Student Management System</h2>
+
+    <div class="form">
+        <input type="text" id="name" placeholder="Student Name">
+        <input type="text" id="roll" placeholder="Roll Number">
+        <input type="text" id="className" placeholder="Class">
+        <button onclick="addStudent()">Add Student</button>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Roll No</th>
+                <th>Class</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="studentTable"></tbody>
+    </table>
+</div>
+
+<script>
+
+let students = JSON.parse(localStorage.getItem("students")) || [];
+
+function saveData(){
+    localStorage.setItem("students", JSON.stringify(students));
+    renderTable();
+}
+
+function addStudent(){
+    let name = document.getElementById("name").value;
+    let roll = document.getElementById("roll").value;
+    let className = document.getElementById("className").value;
+
+    if(name === "" || roll === "" || className === ""){
+        alert("Please fill all fields");
+        return;
+    }
+
+    students.push({ name, roll, className });
+    
+    document.getElementById("name").value = "";
+    document.getElementById("roll").value = "";
+    document.getElementById("className").value = "";
+
+    saveData();
+}
+
+function deleteStudent(index){
+    students.splice(index, 1);
+    saveData();
+}
+
+function editStudent(index){
+    let student = students[index];
+
+    let newName = prompt("Edit Name", student.name);
+    let newRoll = prompt("Edit Roll No", student.roll);
+    let newClass = prompt("Edit Class", student.className);
+
+    if(newName && newRoll && newClass){
+        students[index] = {
+            name: newName,
+            roll: newRoll,
+            className: newClass
+        };
+        saveData();
+    }
+}
+
+function renderTable(){
+    let table = document.getElementById("studentTable");
+    table.innerHTML = "";
+
+    students.forEach((student, index) => {
+        table.innerHTML += `
+            <tr>
+                <td>${student.name}</td>
+                <td>${student.roll}</td>
+                <td>${student.className}</td>
+                <td class="actions">
+                    <button class="edit" onclick="editStudent(${index})">Edit</button>
+                    <button onclick="deleteStudent(${index})">Delete</button>
+                </td>
+            </tr>
+        `;
+    });
+}
+
+renderTable();
+
+</script>
+
+</body>
+</html>

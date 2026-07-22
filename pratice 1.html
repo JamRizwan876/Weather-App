@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Counter App</title>
+</head>
+<body>
+
+<h1 id="count">0</h1>
+
+<button id="btn">Increase</button>
+
+<script>
+let count = 0;
+
+document.getElementById("btn").addEventListener("click", function(){
+    count = count + 1;
+    document.getElementById("count").innerHTML = count;
+});
+</script>
+
+</body>
+</html>

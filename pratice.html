@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Information App</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial;
+        }
+
+        body{
+            background:#f4f4f4;
+            padding:40px;
+        }
+
+        .container{
+            max-width:600px;
+            margin:auto;
+            background:white;
+            padding:30px;
+            border-radius:10px;
+            box-shadow:0 0 10px rgba(0,0,0,0.2);
+        }
+
+        h1{
+            text-align:center;
+            margin-bottom:20px;
+        }
+
+        input{
+            width:100%;
+            padding:12px;
+            margin:10px 0;
+        }
+
+        button{
+            width:100%;
+            padding:12px;
+            background:blue;
+            color:white;
+            border:none;
+            cursor:pointer;
+            margin-top:10px;
+        }
+
+        button:hover{
+            background:darkblue;
+        }
+
+        #output{
+            margin-top:20px;
+        }
+
+        .card{
+            background:#eee;
+            padding:15px;
+            margin-top:10px;
+            border-radius:8px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Student Information App</h1>
+
+    <input type="text" id="name" placeholder="Enter Name">
+
+    <input type="number" id="age" placeholder="Enter Age">
+
+    <input type="number" id="marks" placeholder="Enter Marks">
+
+    <button id="btn">
+        Add Student
+    </button>
+
+    <div id="output"></div>
+
+</div>
+
+<script>
+
+    // VARIABLES
+    const button = document.getElementById("btn");
+
+    let students = []; // ARRAY
+
+    // EVENT
+    button.addEventListener("click", addStudent);
+
+
+    // FUNCTION
+    function addStudent(){
+
+        // DOM
+        let name =
+        document.getElementById("name").value;
+
+        let age =
+        Number(document.getElementById("age").value);
+
+        let marks =
+        Number(document.getElementById("marks").value);
+
+
+        // CONDITION
+        if(name === "" || age === 0 || marks === 0){
+            alert("Please Fill All Fields");
+            return;
+        }
+
+        // OBJECT
+        let student = {
+
+            name : name,
+            age : age,
+            marks : marks,
+
+            result : function(){
+
+                if(this.marks >= 50){
+                    return "Pass";
+                }
+                else{
+                    return "Fail";
+                }
+
+            }
+
+        };
+
+
+        // ARRAY METHOD
+        students.push(student);
+
+        showStudents();
+
+    }
+
+
+
+    function showStudents(){
+
+        let output =
+        document.getElementById("output");
+
+        output.innerHTML = "";
+
+        // LOOP
+        for(let i=0; i<students.length; i++){
+
+            output.innerHTML += `
+
+            <div class="card">
+
+            <h3>Name : ${students[i].name}</h3>
+
+            <p>Age : ${students[i].age}</p>
+
+            <p>Marks : ${students[i].marks}</p>
+
+            <p>Status : ${students[i].result()}</p>
+
+            </div>
+
+            `;
+
+        }
+
+    }
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ashraf High School Management System</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#f4f6f9;
+padding:20px;
+}
+
+.container{
+max-width:1200px;
+margin:auto;
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,.2);
+}
+
+h1{
+text-align:center;
+color:#0d6efd;
+margin-bottom:20px;
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:15px;
+margin-bottom:20px;
+}
+
+.card{
+background:#0d6efd;
+color:white;
+padding:20px;
+text-align:center;
+border-radius:10px;
+}
+
+input,select{
+padding:10px;
+margin:5px;
+border:1px solid #ccc;
+border-radius:5px;
+}
+
+button{
+padding:10px 15px;
+border:none;
+background:#0d6efd;
+color:white;
+cursor:pointer;
+border-radius:5px;
+}
+
+.delete-btn{
+background:red;
+}
+
+.voucher-btn{
+background:green;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+}
+
+table th,table td{
+border:1px solid #ddd;
+padding:10px;
+text-align:center;
+}
+
+table th{
+background:#0d6efd;
+color:white;
+}
+
+.search{
+width:100%;
+padding:12px;
+margin-top:15px;
+}
+
+#voucher{
+display:none;
+margin-top:25px;
+padding:20px;
+border:2px solid #000;
+background:#fff;
+}
+
+@media(max-width:768px){
+table{
+font-size:12px;
+}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Ashraf High School Management System</h1>
+
+<div class="stats">
+<div class="card">
+<h2 id="totalStudents">0</h2>
+<p>Total Students</p>
+</div>
+
+<div class="card">
+<h2 id="presentStudents">0</h2>
+<p>Present</p>
+</div>
+
+<div class="card">
+<h2 id="absentStudents">0</h2>
+<p>Absent</p>
+</div>
+</div>
+
+<h3>Add Student</h3>
+
+<input type="text" id="name" placeholder="Student Name">
+<input type="text" id="father" placeholder="Father Name">
+<input type="text" id="className" placeholder="Class">
+<input type="text" id="roll" placeholder="Roll No">
+
+<button onclick="addStudent()">Add Student</button>
+
+<input
+type="text"
+id="search"
+class="search"
+placeholder="Search Student..."
+onkeyup="searchStudent()">
+
+<table>
+
+<thead>
+<tr>
+<th>Name</th>
+<th>Father</th>
+<th>Class</th>
+<th>Roll No</th>
+<th>Attendance</th>
+<th>Fee</th>
+<th>Voucher</th>
+<th>Delete</th>
+</tr>
+</thead>
+
+<tbody id="studentTable"></tbody>
+
+</table>
+
+<div id="voucher">
+
+<h2>Ashraf High School Fee Voucher</h2>
+
+<hr><br>
+
+<p id="vName"></p>
+<p id="vFather"></p>
+<p id="vClass"></p>
+<p id="vRoll"></p>
+<p id="vAttendance"></p>
+<p id="vFee"></p>
+
+<br>
+
+<button onclick="window.print()">
+Print Voucher
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+let students =
+JSON.parse(localStorage.getItem("students")) || [];
+
+displayStudents();
+
+function saveData(){
+
+localStorage.setItem(
+"students",
+JSON.stringify(students)
+);
+
+}
+
+function addStudent(){
+
+let name =
+document.getElementById("name").value;
+
+let father =
+document.getElementById("father").value;
+
+let className =
+document.getElementById("className").value;
+
+let roll =
+document.getElementById("roll").value;
+
+if(
+name=="" ||
+father=="" ||
+className=="" ||
+roll==""
+){
+alert("Fill all fields");
+return;
+}
+
+students.push({
+name,
+father,
+className,
+roll,
+attendance:"Present",
+fee:0
+});
+
+saveData();
+displayStudents();
+
+document.getElementById("name").value="";
+document.getElementById("father").value="";
+document.getElementById("className").value="";
+document.getElementById("roll").value="";
+}
+
+function displayStudents(){
+
+let table =
+document.getElementById("studentTable");
+
+table.innerHTML="";
+
+let present=0;
+let absent=0;
+
+students.forEach((s,index)=>{
+
+if(s.attendance=="Present"){
+present++;
+}else{
+absent++;
+}
+
+table.innerHTML += `
+<tr>
+
+<td>${s.name}</td>
+<td>${s.father}</td>
+<td>${s.className}</td>
+<td>${s.roll}</td>
+
+<td>
+<select onchange="updateAttendance(${index},this.value)">
+<option ${s.attendance=="Present"?"selected":""}>Present</option>
+<option ${s.attendance=="Absent"?"selected":""}>Absent</option>
+</select>
+</td>
+
+<td>
+<input
+type="number"
+value="${s.fee}"
+onchange="updateFee(${index},this.value)">
+</td>
+
+<td>
+<button
+class="voucher-btn"
+onclick="generateVoucher(${index})">
+Voucher
+</button>
+</td>
+
+<td>
+<button
+class="delete-btn"
+onclick="deleteStudent(${index})">
+Delete
+</button>
+</td>
+
+</tr>
+`;
+});
+
+document.getElementById("totalStudents").innerText =
+students.length;
+
+document.getElementById("presentStudents").innerText =
+present;
+
+document.getElementById("absentStudents").innerText =
+absent;
+}
+
+function updateAttendance(index,value){
+
+students[index].attendance=value;
+
+saveData();
+displayStudents();
+
+}
+
+function updateFee(index,value){
+
+students[index].fee=value;
+
+saveData();
+
+}
+
+function deleteStudent(index){
+
+if(confirm("Delete Student?")){
+
+students.splice(index,1);
+
+saveData();
+displayStudents();
+
+}
+
+}
+
+function generateVoucher(index){
+
+let s = students[index];
+
+document.getElementById("voucher").style.display="block";
+
+document.getElementById("vName").innerHTML =
+"<b>Name:</b> "+s.name;
+
+document.getElementById("vFather").innerHTML =
+"<b>Father Name:</b> "+s.father;
+
+document.getElementById("vClass").innerHTML =
+"<b>Class:</b> "+s.className;
+
+document.getElementById("vRoll").innerHTML =
+"<b>Roll No:</b> "+s.roll;
+
+document.getElementById("vAttendance").innerHTML =
+"<b>Attendance:</b> "+s.attendance;
+
+document.getElementById("vFee").innerHTML =
+"<b>Monthly Fee:</b> Rs. "+s.fee;
+
+}
+
+function searchStudent(){
+
+let input =
+document.getElementById("search")
+.value.toLowerCase();
+
+let rows =
+document.querySelectorAll("#studentTable tr");
+
+rows.forEach(row=>{
+
+let text =
+row.innerText.toLowerCase();
+
+row.style.display =
+text.includes(input) ? "" : "none";
+
+});
+
+}
+
+</script>
+
+</body>
+</html>
